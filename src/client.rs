@@ -2,6 +2,7 @@ use std::fmt;
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
+use std::time::Duration;
 
 use hyper::{client::connect::HttpConnector, service::Service, Uri};
 use tokio::io::{AsyncRead, AsyncWrite};
@@ -49,6 +50,16 @@ impl HttpsConnector<HttpConnector> {
         let mut http = HttpConnector::new();
         http.enforce_http(false);
         HttpsConnector::from((http, tls))
+    }
+
+    #[inline]
+    pub fn set_keepalive(&mut self, dur: Option<Duration>) {
+        self.http.set_keepalive(dur);
+    }
+
+    #[inline]
+    pub fn set_nodelay(&mut self, nodelay: bool) {
+        self.http.set_nodelay(nodelay);
     }
 }
 
