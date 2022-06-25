@@ -52,12 +52,18 @@ impl HttpsConnector<HttpConnector> {
         HttpsConnector::from((http, tls))
     }
 
-    #[inline]
+    /// Set that all sockets have `SO_KEEPALIVE` set with the supplied duration.
+    ///
+    /// If `None`, the option will not be set.
+    ///
+    /// Default is `None`.
     pub fn set_keepalive(&mut self, dur: Option<Duration>) {
         self.http.set_keepalive(dur);
     }
 
-    #[inline]
+    /// Set that all sockets have `SO_NODELAY` set to the supplied value `nodelay`.
+    ///
+    /// Default is `false`.
     pub fn set_nodelay(&mut self, nodelay: bool) {
         self.http.set_nodelay(nodelay);
     }
